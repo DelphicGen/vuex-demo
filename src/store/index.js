@@ -16,9 +16,7 @@ mock['on'+ res.method](res.url).reply(res.status, {
   ...res.response.data
 })
 
-mock.onGet("/api/carts").reply(200, {
-  ...routeMock[3].response.data
-})
+mock.onGet("/api/carts").reply(200, routeMock[3].response.data)
 
 Vue.use(Vuex)
 
@@ -58,13 +56,7 @@ export default new Vuex.Store({
       });
     },
     deleteCartItem ({ commit, state }, productId) {
-      console.log(Array.isArray(state.carts), state.carts)
-      const newCarts = []
-      for(const i in state.carts) {
-        if(state.carts[i].id !== productId) {
-          newCarts.push(state.carts[i])
-        }
-      }
+      const newCarts = state.carts.filter(item => item.id !== productId)
       commit('setCarts', newCarts)
     }
   },
